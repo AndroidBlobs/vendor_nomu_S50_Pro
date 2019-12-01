@@ -1,0 +1,8 @@
+on property:service.nvram_init=Ready
+    start soul
+
+service soul /vendor/bin/hw/vendor.freeme.hardware.soul-service
+    class main
+    user root
+    group system
+    disabled

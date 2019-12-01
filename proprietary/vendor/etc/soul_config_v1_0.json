@@ -1,0 +1,100 @@
+// Configuration options
+{
+  "nvram": [
+    /* Order is Important! */
+    { "key": "device.flag.uuid", "length": 36 },
+    { "key": "sensor.cali.proximity", "length": 28 },
+    { "key": "device.flag.eicard", "length": 1 },
+    { "key": "device.flag.findme", "length": 1 },
+    { "key": "device.fakerom.total", "length": 8 },
+    { "key": "device.fakerom.free", "length": 8 },
+    { "key": "device.fakeram.total", "length": 4 },
+    { "key": "device.product.model", "length": 32 },
+    { "key": "device.bootanim.indicator", "length": 1 },
+    { "key": "device.factory.result", "length": 256 },
+    // @{ [LEAGOO]
+    { "key": "leagoo.saletracker.intdata", "length": 4 },
+    { "key": "leagoo.saletracker.registered", "length": 1 },
+    { "key": "leagoo.saletracker.booldata", "length": 1 },
+    { "key": "leagoo.saletracker.date", "length": 48 },
+    // @}
+    { "key": "devices.factory.audiotest", "length": 1 }
+  ],
+  "dev-init": [
+    /* Order is *NOT* Important. */
+    /*
+    { // <template>
+      "key": "<key>",
+      "bootable": "<false|true|system_property>",
+      "type": "<int/long/string>",
+      "node": "<kernel/node/to/write>|property:<...>|specific:[...]>|<none>",
+      "persistent": "<nvram:<...>|[''|property:<...>]|specific:[...]>",
+      ["default": "<system_property>"]
+    },
+    */
+    { // sensor proximity calibration data restore
+      "key": "ssr.proximity.cali",
+      "bootable": "ro.freeme.hw_sensor_proximity",
+      "type": "string",
+      "node": "/sys/bus/platform/drivers/als_ps/config",
+      "persistent": "nvram:sensor.cali.proximity"
+    },
+    { // touch-panel glove mode
+      "key": "tp.glove.enable",
+      "bootable": "ro.freeme.tp_glove_support",
+      "type": "int",
+      "node": "/sys/class/syna/glvmode",
+      "persistent": "property:persist.freeme.glove.enable"
+    },
+    { // sensor gesture generic mode
+      "key": "ssr.gesture.generic",
+      "bootable": "false",
+      "type": "int",
+      "node": "/sys/class/tmg3993/tpmode",
+      "persistent": "property:persist.freeme.gesture.generic"
+    },
+    { // wifi mac address generator
+      "key": "wifi.mac_address.generator",
+      "bootable": "ro.freeme.auto_generate_mac",
+      "type": "string",
+      "node": "<none>",
+      "persistent": "specific:"
+    },
+    { // fake rom total
+      "key": "device.fakerom.total",
+      "bootable": "ro.freeme.fake_rom_ram",
+      "type": "long",
+      "node": "/sys/class/droi_sb/sba",
+      "persistent": "nvram:device.fakerom.total"
+    },
+    { // fake rom free
+      "key": "device.fakerom.free",
+      "bootable": "ro.freeme.fake_rom_ram",
+      "type": "long",
+      "node": "/sys/class/droi_sb/sbf",
+      "persistent": "nvram:device.fakerom.free"
+    },
+    { // fake ram total
+      "key": "device.fakeram.total",
+      "bootable": "ro.freeme.fake_rom_ram",
+      "type": "int",
+      "node": "/sys/class/droi_meminfo/droiram_total",
+      "persistent": "nvram:device.fakeram.total"
+    },
+    { // fake product model
+      "key": "device.product.model",
+      "bootable": "ro.freeme.alter.product_model",
+      "type": "string",
+      "node": "property:persist.freeme.product.model",
+      "persistent": "nvram:device.product.model",
+      "default": "ro.product.model"
+    },
+    { // boot animation logo indicator
+      "key": "device.bootanim.indicator",
+      "bootable": "false",
+      "type": "int",
+      "node": "specific:",
+      "persistent": "nvram:device.bootanim.indicator"
+    }
+  ]
+}
